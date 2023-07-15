@@ -68,4 +68,10 @@ public class MainController {
     increaseA++;
       return increaseA;
   }
+
+  @GetMapping("/gugudan")
+  @ResponseBody
+  public String ShowGugudan(int dan, int limit) {
+    
+  }
 }
