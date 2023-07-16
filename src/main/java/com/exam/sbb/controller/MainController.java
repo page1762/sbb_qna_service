@@ -3,6 +3,7 @@ package com.exam.sbb.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -143,18 +144,39 @@ public class MainController {
   @ResponseBody
   public Article getArticle(@PathVariable int id) {
 
-    Article article = articles
+    Article article = articles // id가 1번인 게시물이 앞에서 3번째
         .stream()
         .filter(a -> a.getId() == id)
         .findFirst()
-        .get();
+        .orElse(null);
 
     return article;
+  }
+
+  @GetMapping("/modifyArticle/{id}")
+  @ResponseBody
+  public String modifyArticle(@PathVariable int id, String title, String body) {
+
+    Article article = articles // id가 1번인 게시물이 앞에서 3번째
+        .stream()
+        .filter(a -> a.getId() == id)
+        .findFirst()
+        .orElse(null);
+
+    if(article == null) {
+      return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+    }
+
+    article.setTitle(title);
+    article.setBody(body);
+
+    return "%d번 게시물을 수정하였습니다.".formatted(article.getId());
   }
 
 
   @AllArgsConstructor
   @Getter
+  @Setter
   class Article {
     private static int lastId = 0;
     private int id;
