@@ -1,13 +1,23 @@
 package com.exam.sbb.controller;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class MainController {
 
   private int increaseA = 0;
+
   @RequestMapping("/sbb")
   @ResponseBody
   public String index() {
@@ -66,12 +76,93 @@ public class MainController {
   @ResponseBody
   public int ShowIncrease() {
     increaseA++;
-      return increaseA;
+    return increaseA;
   }
 
   @GetMapping("/gugudan")
   @ResponseBody
-  public String ShowGugudan(int dan, int limit) {
-    
+  public String showGugudan(Integer dan, Integer limit) {
+    if (dan == null) {
+      dan = 9;
+    }
+
+    if (limit == null) {
+      limit = 9;
+    }
+
+    final Integer finalDan = dan;
+    return IntStream.rangeClosed(1, limit)
+        .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i, finalDan * i))
+        .collect(Collectors.joining("<br>\n"));
+  }
+
+  @GetMapping("/mbti/{name}")
+  @ResponseBody
+  public String ShowMbti(@PathVariable String name) {
+    return switch (name) {
+      case "홍길동" -> "ENFP";
+      case "홍길순" -> "ENFJ";
+      case "임꺽정" -> "INFP";
+      case "김경민" -> "ESFP";
+      default -> "모름";
+    };
+  }
+
+  @GetMapping("/saveSession/{name}/{value}")
+  @ResponseBody
+  public String saveSession(@PathVariable String name, @PathVariable String value, HttpServletRequest req) {
+    HttpSession session = req.getSession();
+    session.setAttribute(name, value);
+
+    return "세션변수 %s의 값이 %s(으)로 설정되었습니다.".formatted(name, value);
+  }
+
+  @GetMapping("/getSession/{name}")
+  @ResponseBody
+  public String getSession(@PathVariable String name, HttpSession session) {
+    // req => 쿠키 => JSESSIONID => 세션을 얻을 수 있다.
+
+    String value = (String) session.getAttribute(name);
+
+    return "세션변수 %s의 값은 %s입니다.".formatted(name, value);
+  }
+
+  private List<Article> articles = new ArrayList<>();
+
+  @GetMapping("/addArticle")
+  @ResponseBody
+  public String addArticle(String title, String body) {
+
+    Article article = new Article(title, body);
+    articles.add(article);
+
+    return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
+  }
+
+  @GetMapping("/article/{id}")
+  @ResponseBody
+  public Article getArticle(@PathVariable int id) {
+
+    Article article = articles
+        .stream()
+        .filter(a -> a.getId() == id)
+        .findFirst()
+        .get();
+
+    return article;
+  }
+
+
+  @AllArgsConstructor
+  @Getter
+  class Article {
+    private static int lastId = 0;
+    private int id;
+    private String title;
+    private String body;
+
+    public Article(String title, String body) {
+      this(++lastId, title, body);
+    }
   }
 }
