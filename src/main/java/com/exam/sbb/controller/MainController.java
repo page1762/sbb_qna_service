@@ -121,7 +121,6 @@ public class MainController {
   @GetMapping("/getSession/{name}")
   @ResponseBody
   public String getSession(@PathVariable String name, HttpSession session) {
-    // req => 쿠키 => JSESSIONID => 세션을 얻을 수 있다.
 
     String value = (String) session.getAttribute(name);
 
@@ -144,7 +143,7 @@ public class MainController {
   @ResponseBody
   public Article getArticle(@PathVariable int id) {
 
-    Article article = articles // id가 1번인 게시물이 앞에서 3번째
+    Article article = articles
         .stream()
         .filter(a -> a.getId() == id)
         .findFirst()
@@ -157,7 +156,7 @@ public class MainController {
   @ResponseBody
   public String modifyArticle(@PathVariable int id, String title, String body) {
 
-    Article article = articles // id가 1번인 게시물이 앞에서 3번째
+    Article article = articles
         .stream()
         .filter(a -> a.getId() == id)
         .findFirst()
@@ -171,6 +170,25 @@ public class MainController {
     article.setBody(body);
 
     return "%d번 게시물을 수정하였습니다.".formatted(article.getId());
+  }
+
+  @GetMapping("/deleteArticle/{id}")
+  @ResponseBody
+  public String deleteArticle(@PathVariable int id) {
+
+    Article article = articles
+        .stream()
+        .filter(a -> a.getId() == id)
+        .findFirst()
+        .orElse(null);
+
+    if(article == null) {
+      return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+    }
+
+    articles.remove(article);
+
+    return "%d번 게시물을 삭제하였습니다.".formatted(article.getId());
   }
 
 
