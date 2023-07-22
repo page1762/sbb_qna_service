@@ -1,9 +1,7 @@
 package com.exam.sbb.controller;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -189,6 +187,39 @@ public class MainController {
     articles.remove(article);
 
     return "%d번 게시물을 삭제하였습니다.".formatted(article.getId());
+  }
+
+ // private List<Person> people = new ArrayList<>();
+//  @GetMapping("/addPersonOldWay")
+//  @ResponseBody
+//  public String addPersonOldWay(int id, int age, String name) {
+//
+//    Person p = new Person(id, age, name);
+//    people.add(p);
+//
+//    return "%d번 사용자가 생성되었습니다.".formatted(p.getId());
+//  }
+
+  @GetMapping("/addPerson/{id}")
+  @ResponseBody
+  public Person addPerson(Person p) {
+    return p;
+  }
+
+  @AllArgsConstructor
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  @Builder
+  static class Person {
+    private int id;
+    private int age;
+    private String name;
+
+    public Person(int age, String name) {
+      this.age = age;
+      this.name = name;
+    }
   }
 
 
