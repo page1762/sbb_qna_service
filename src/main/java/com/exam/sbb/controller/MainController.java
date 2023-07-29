@@ -160,7 +160,7 @@ public class MainController {
         .findFirst()
         .orElse(null);
 
-    if(article == null) {
+    if (article == null) {
       return "%d번 게시물은 존재하지 않습니다.".formatted(id);
     }
 
@@ -180,7 +180,7 @@ public class MainController {
         .findFirst()
         .orElse(null);
 
-    if(article == null) {
+    if (article == null) {
       return "%d번 게시물은 존재하지 않습니다.".formatted(id);
     }
 
@@ -189,7 +189,7 @@ public class MainController {
     return "%d번 게시물을 삭제하였습니다.".formatted(article.getId());
   }
 
- // private List<Person> people = new ArrayList<>();
+  // private List<Person> people = new ArrayList<>();
 //  @GetMapping("/addPersonOldWay")
 //  @ResponseBody
 //  public String addPersonOldWay(int id, int age, String name) {
@@ -200,18 +200,19 @@ public class MainController {
 //    return "%d번 사용자가 생성되었습니다.".formatted(p.getId());
 //  }
 
+
   @GetMapping("/addPerson/{id}")
   @ResponseBody
   public Person addPerson(Person p) {
     return p;
   }
-
+}
   @AllArgsConstructor
   @Getter
   @Setter
   @NoArgsConstructor
-  @Builder
-  static class Person {
+
+  class Person {
     private int id;
     private int age;
     private String name;
@@ -236,4 +237,3 @@ public class MainController {
       this(++lastId, title, body);
     }
   }
-}
