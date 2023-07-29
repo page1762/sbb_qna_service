@@ -116,5 +116,4 @@ class QuestionApplicationTests {
 
     assertThat(q.getSubject()).isEqualTo("sbb가 무엇인가요?");
 	}
-
 }
