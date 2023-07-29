@@ -12,15 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 
 @SpringBootTest
-public class AnswerApplicationTests {
+public class AnswerRepositoryTests {
 
   @Autowired
   private QuestionRepository questionRepository;
 
   @Autowired
   private AnswerRepository answerRepository;
-
-  private static int lastSampleDataId;
 
   @BeforeEach
   void beforeEach() {
@@ -29,15 +27,15 @@ public class AnswerApplicationTests {
   }
 
   private void clearData() {
-    QuestionApplicationTests.clearData(questionRepository);
+    QuestionRepositoryTests.clearData(questionRepository);
 
+    answerRepository.disableForeignKeyChecks();
     answerRepository.truncate();
-    questionRepository.disableForeignKeyChecks();
-    questionRepository.enableForeignKeyChecks();
+    answerRepository.enableForeignKeyChecks();
   }
 
   private void createSampleData() {
-    QuestionApplicationTests.createSampleData(questionRepository);
+    QuestionRepositoryTests.createSampleData(questionRepository);
   }
 
   @Test
