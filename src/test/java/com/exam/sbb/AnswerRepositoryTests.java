@@ -28,10 +28,11 @@ public class AnswerRepositoryTests {
 
   private void clearData() {
     QuestionRepositoryTests.clearData(questionRepository);
+    answerRepository.truncateTable();
+  }
 
-    answerRepository.disableForeignKeyChecks();
-    answerRepository.truncate();
-    answerRepository.enableForeignKeyChecks();
+  private void truncate(){
+
   }
 
   private void createSampleData() {

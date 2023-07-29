@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import javax.transaction.Transactional;
 
 public interface RepositoryUtil {
+
   @Modifying
   @Transactional
   @Query(value = "SET FOREIGN_KEY_CHECKS = 0", nativeQuery = true)
@@ -15,4 +16,11 @@ public interface RepositoryUtil {
   @Transactional
   @Query(value = "SET FOREIGN_KEY_CHECKS = 1", nativeQuery = true)
   void enableForeignKeyChecks();
+
+  default void truncateTable(){
+    disableForeignKeyChecks();
+    truncate();
+    enableForeignKeyChecks();
+  }
+  void truncate();
 }
