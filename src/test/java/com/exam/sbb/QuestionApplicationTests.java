@@ -25,13 +25,7 @@ class QuestionApplicationTests {
     createSampleData();
   }
 
-  private void clearData() {
-    questionRepository.disableForeignKeyChecks();
-    questionRepository.truncate();
-    questionRepository.enableForeignKeyChecks();
-  }
-
-  private void createSampleData() {
+  public static int createSampleData(QuestionRepository questionRepository) {
     Question q1 = new Question();
     q1.setSubject("sbb가 무엇인가요?");
     q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -44,7 +38,21 @@ class QuestionApplicationTests {
     q2.setCreateDate(LocalDateTime.now());
     questionRepository.save(q2);
 
-    lastSampleDataId = q2.getId();
+    return q2.getId();
+  }
+
+  private void createSampleData() {
+    lastSampleDataId = createSampleData(questionRepository);
+  }
+
+  public static void clearData(QuestionRepository questionRepository) {
+    questionRepository.disableForeignKeyChecks();
+    questionRepository.truncate();
+    questionRepository.enableForeignKeyChecks();
+  }
+
+  private void clearData() {
+    clearData(questionRepository);
   }
 
   @Test
@@ -89,7 +97,7 @@ class QuestionApplicationTests {
   }
 
   @Test
-  void findAll(){
+  void findAll() {
     List<Question> all = questionRepository.findAll();
     assertThat(all.size()).isEqualTo(lastSampleDataId);
 
@@ -97,23 +105,23 @@ class QuestionApplicationTests {
     assertThat(q.getSubject()).isEqualTo("sbb가 무엇인가요?");
   }
 
-	@Test
-	void findBySubject() {
-		Question q = questionRepository.findBySubject("sbb가 무엇인가요?");
+  @Test
+  void findBySubject() {
+    Question q = questionRepository.findBySubject("sbb가 무엇인가요?");
     assertThat(q.getId()).isEqualTo(1);
-	}
+  }
 
-	@Test
-	void findBySubjectAndContent() {
-		Question q = questionRepository.findBySubjectAndContent("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
+  @Test
+  void findBySubjectAndContent() {
+    Question q = questionRepository.findBySubjectAndContent("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
     assertThat(q.getId()).isEqualTo(1);
-	}
+  }
 
-	@Test
-	void findBySubjectLike() {
-		List<Question> qList = questionRepository.findBySubjectLike("sbb%");
-		Question q = qList.get(0);
+  @Test
+  void findBySubjectLike() {
+    List<Question> qList = questionRepository.findBySubjectLike("sbb%");
+    Question q = qList.get(0);
 
     assertThat(q.getSubject()).isEqualTo("sbb가 무엇인가요?");
-	}
+  }
 }
