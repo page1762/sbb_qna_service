@@ -42,6 +42,7 @@ public class AnswerRepositoryTests {
     QuestionRepositoryTests.createSampleData(questionRepository);
 
     Question q = questionRepository.findById(1).get();
+    System.out.println("q 1st : " + q);
 
     Answer a1 = new Answer();
     a1.setContent("sbb는 질문답변 게시판입니다.");
@@ -86,10 +87,10 @@ public class AnswerRepositoryTests {
   @Rollback(false)
   void question으로부터_관련된_질문들_조회() {
     Question q = questionRepository.findById(1).get();
-    // DB 연결이 끊김
+    System.out.println("q 2nd : " + q);
 
-    questionRepository.findById(3);
-    questionRepository.findById(3);
+    q = questionRepository.findById(1).get();
+    // DB 연결이 끊김
     List<Answer> answerList = q.getAnswerList();
 
     assertThat(answerList.size()).isEqualTo(2);
