@@ -49,6 +49,4 @@ class SbbRepositoryTests {
     questionRepository.save(q1);
 
   }
-
-
 }
