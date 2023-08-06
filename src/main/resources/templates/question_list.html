@@ -1,20 +1,23 @@
-<table>
-  <thead>
-  <tr>
-    <th>번호</th>
-    <th>제목</th>
-    <th>작성일시</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="question, loop : ${questionList}">
-    <td>
-      [[${question.id}]]
-    </td>
-    <td>
-      <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
-    </td>
-    <td th:text="|Date. ${#strings.substring(question.createDate, 2, 16)}분|"></td>
-  </tr>
-  </tbody>
-</table>
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+  <table class="table">
+    <thead class="table-dark">
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성일시</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="question, loop : ${questionList}">
+      <td th:text="${question.id}"></td>
+      <td>
+        <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+      </td>
+      <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>
