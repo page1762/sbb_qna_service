@@ -40,4 +40,9 @@ public class QuestionController {
     model.addAttribute("question", question);
     return "question_detail";
   }
+
+  @GetMapping("/create")
+  public String questionCreate() {
+    return "question_form";
+  }
 }

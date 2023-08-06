@@ -6,6 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <!-- Bootstrap 다운로드 ver -->
+  <!--  <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
 
@@ -13,7 +16,7 @@
   <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
   <title>Q&A 서비스</title>
 </head>
-<body>
+<body style="min-height:100vh;" class="d-flex flex-column">
 
 <header class="header">
   <div class="container py-3 d-flex">
@@ -33,11 +36,13 @@
 </header>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-<th:block layout:fragment="content"></th:block>
+<main class="flex-grow-1">
+  <th:block layout:fragment="content"></th:block>
+</main>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-<footer class="footer">
-  <div class="container d-flex justify-content-center">
+<footer class="footer bg-dark text-light">
+  <div class="container py-3 d-flex justify-content-center">
     copyright(c) 2023 SBS KOREA, All rights reserved
   </div>
 </footer>
