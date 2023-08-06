@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,9 +14,10 @@
   <title>Q&A 서비스</title>
 </head>
 <body>
-<header>
+
+<header class="header">
   <div class="container py-3 d-flex">
-    <a th:href="@{/}" class="logo">메인페이지</a>
+    <a th:href="@{/}" class="logo">메인 페이지</a>
     <div class="flex-grow-1"></div>
     <nav class="menu-1">
       <ul class="d-flex gap-3">
@@ -26,8 +29,7 @@
         </li>
       </ul>
     </nav>
-
-</div>
+  </div>
 </header>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
