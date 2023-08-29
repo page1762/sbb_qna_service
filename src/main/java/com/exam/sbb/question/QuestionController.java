@@ -38,15 +38,19 @@ public class QuestionController {
     model.addAttribute("question", question);
     return "question_detail";
   }
-
   @GetMapping("/create")
   public String questionCreate() {
     return "question_form";
   }
 
   @PostMapping("/create")
-  public String questionCreate(String subject, String content) {
-    questionService.create(subject,content);
+  public String questionCreate(QuestionForm questionForm) {
+
+    if(questionForm.getSubject() == null || questionForm.getSubject().trim().length() == 0){
+      return "question_form";
+    }
+
+    questionService.create(questionForm.getSubject(), questionForm.getContent());
     return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
   }
 }
